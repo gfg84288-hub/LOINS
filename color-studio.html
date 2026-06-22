@@ -1,0 +1,2460 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>🎨 استوديو الألوان | YGR COMMUNITY</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --bg-base: #06060a;
+            --surface: #0d0d14;
+            --surface-elevated: #13131d;
+            --surface-panel: rgba(13, 13, 20, 0.95);
+            --primary: #ff0707;
+            --primary-soft: #ff0000;
+            --primary-glow: rgba(255, 5, 5, 0.5);
+            --primary-subtle: rgba(252, 0, 0, 0.15);
+            --accent: #00d9ff;
+            --accent-glow: rgba(0, 217, 255, 0.4);
+            --text-primary: #f8f9fa;
+            --text-secondary: #b8b9c0;
+            --text-muted: #6b6d76;
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-medium: rgba(255, 255, 255, 0.1);
+            --gradient-primary: linear-gradient(135deg, #fd0000 0%, #f80000 100%);
+            --gradient-dark: linear-gradient(180deg, #06060a 0%, #0d0d18 50%, #06060a 100%);
+            --gradient-card: linear-gradient(145deg, rgba(20, 20, 30, 0.9) 0%, rgba(10, 10, 16, 0.95) 100%);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.5);
+            --shadow-gold: 0 0 40px rgba(212, 175, 55, 0.3), 0 10px 40px rgba(0, 0, 0, 0.4);
+            --shadow-accent: 0 0 30px rgba(0, 217, 255, 0.25);
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 28px;
+            --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --navbar-height: 80px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) var(--bg-base);
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-base); }
+        ::-webkit-scrollbar-thumb { 
+            background: linear-gradient(180deg, var(--primary) 0%, var(--primary-soft) 100%); 
+            border-radius: 10px; 
+        }
+
+        html, body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            width: 100%;
+            max-width: 100vw;
+            position: relative;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        body {
+            padding-top: var(--navbar-height);
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -3;
+            background: var(--gradient-dark);
+            animation: gradientPulse 20s ease-in-out infinite;
+        }
+
+        @keyframes gradientPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .ambient-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: -2;
+            animation: orbFloat 25s ease-in-out infinite;
+        }
+
+        .ambient-orb.orb-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+            animation-delay: 0s;
+        }
+
+        .ambient-orb.orb-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 217, 255, 0.2) 0%, transparent 70%);
+            bottom: -150px;
+            left: -150px;
+            animation-delay: -10s;
+        }
+
+        .ambient-orb.orb-3 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -5s;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -30px) scale(1.1); }
+            50% { transform: translate(-20px, 20px) scale(0.95); }
+            75% { transform: translate(20px, 30px) scale(1.05); }
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--navbar-height);
+            background: rgba(13, 13, 20, 0.95);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border-bottom: 1px solid var(--border-subtle);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .navbar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.05) 0%, transparent 50%, rgba(0, 217, 255, 0.03) 100%);
+            pointer-events: none;
+        }
+
+        .nav-logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #fff;
+            position: relative;
+            background: linear-gradient(135deg, #fff 0%, #e0e0e0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .nav-logo span {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.75rem 1.25rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.15), transparent);
+            transition: right 0.6s ease;
+        }
+
+        .nav-links a:hover::before,
+        .nav-links a.active::before {
+            right: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: var(--primary-subtle);
+            color: #fff;
+            border-color: rgba(212, 175, 55, 0.4);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+        }
+
+        .nav-links a i {
+            font-size: 1rem;
+            transition: var(--transition-smooth);
+            color: inherit;
+            position: relative;
+            z-index: 1;
+        }
+
+        .nav-links a span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .nav-links a.active i {
+            color: var(--primary-soft);
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        /* Main Wrapper */
+        .main-wrapper {
+            min-height: calc(100vh - var(--navbar-height));
+            padding: 2rem;
+            position: relative;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        .page-header h1 span {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-weight: 600;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Color Picker Section */
+        .color-picker-section {
+            background: var(--gradient-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .color-picker-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            border-radius: var(--radius-lg);
+        }
+
+        .picker-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .color-preview-large {
+            background: #ff0000;
+            border-radius: var(--radius-md);
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid var(--border-medium);
+        }
+
+        .color-preview-large::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .picker-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .native-picker-wrapper {
+            position: relative;
+        }
+
+        .native-picker-wrapper label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .native-color-input {
+            width: 100%;
+            height: 60px;
+            border: 2px solid var(--border-medium);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            background: transparent;
+            padding: 0.5rem;
+            transition: var(--transition-smooth);
+        }
+
+        .native-color-input:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .hex-input-group {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .hex-input-group input {
+            flex: 1;
+            padding: 1rem 1.25rem;
+            background: rgba(20, 20, 28, 0.6);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-weight: 700;
+            transition: var(--transition-smooth);
+            font-family: 'Cairo', sans-serif;
+            text-transform: uppercase;
+        }
+
+        .hex-input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px var(--primary-glow);
+            background: rgba(20, 20, 28, 0.8);
+        }
+
+        .btn-apply {
+            padding: 1rem 2rem;
+            background: var(--gradient-primary);
+            color: #000;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Cairo', sans-serif;
+            white-space: nowrap;
+        }
+
+        .btn-apply:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-gold);
+        }
+
+        /* Color Formats Grid */
+        .color-formats-section {
+            background: var(--gradient-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .color-formats-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            border-radius: var(--radius-lg);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title i {
+            color: var(--primary);
+        }
+
+        .formats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .format-card {
+            background: rgba(20, 20, 28, 0.6);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            transition: var(--transition-smooth);
+            backdrop-filter: blur(10px);
+        }
+
+        .format-card:hover {
+            border-color: var(--border-medium);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .format-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .format-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.25rem;
+        }
+
+        .format-value {
+            font-size: 1rem;
+            color: var(--text-primary);
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
+        }
+
+        .btn-copy {
+            flex-shrink: 0;
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .btn-copy:hover {
+            background: var(--primary-subtle);
+            border-color: var(--primary);
+            color: var(--primary-soft);
+            transform: scale(1.1);
+        }
+
+        .btn-copy.copied {
+            background: rgba(0, 255, 136, 0.15);
+            border-color: #00ff88;
+            color: #00ff88;
+        }
+
+        /* Search Section */
+        .search-section {
+            background: var(--gradient-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            border-radius: var(--radius-lg);
+        }
+
+        .search-box {
+            position: relative;
+            z-index: 1;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1.25rem 1.5rem 1.25rem 3.5rem;
+            background: rgba(20, 20, 28, 0.6);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px var(--primary-glow);
+            background: rgba(20, 20, 28, 0.8);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            transition: var(--transition-fast);
+        }
+
+        .search-input:focus + .search-icon {
+            color: var(--primary);
+        }
+
+        /* Categories Tabs */
+        .categories-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .category-tab {
+            padding: 0.75rem 1.5rem;
+            background: rgba(20, 20, 28, 0.6);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            white-space: nowrap;
+            backdrop-filter: blur(10px);
+        }
+
+        .category-tab:hover {
+            border-color: var(--border-medium);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .category-tab.active {
+            background: var(--gradient-primary);
+            border-color: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        /* Colors Grid */
+        .colors-section {
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .colors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1rem;
+        }
+
+        .color-card {
+            background: var(--gradient-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .color-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            border-radius: var(--radius-md);
+        }
+
+        .color-card:hover::before {
+            opacity: 1;
+        }
+
+        .color-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg), var(--shadow-gold);
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
+        .color-swatch {
+            width: 100%;
+            height: 80px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 0.75rem;
+            border: 1px solid var(--border-subtle);
+            transition: var(--transition-smooth);
+        }
+
+        .color-card:hover .color-swatch {
+            transform: scale(1.05);
+        }
+
+        .color-name {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .color-hex {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Palettes Section */
+        .palettes-section {
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .palettes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .palette-card {
+            background: var(--gradient-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .palette-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            border-radius: var(--radius-md);
+        }
+
+        .palette-card:hover::before {
+            opacity: 1;
+        }
+
+        .palette-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg), var(--shadow-gold);
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
+        .palette-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .palette-title i {
+            color: var(--primary);
+        }
+
+        .palette-colors {
+            display: flex;
+            height: 60px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .palette-color {
+            flex: 1;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .palette-color:hover {
+            flex: 2;
+        }
+
+        .palette-color::after {
+            content: attr(data-hex);
+            position: absolute;
+            bottom: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+            opacity: 0;
+            transition: var(--transition-fast);
+        }
+
+        .palette-color:hover::after {
+            opacity: 1;
+        }
+
+        /* Tools Section */
+        .tools-section {
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tool-card {
+            background: var(--gradient-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            text-align: center;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            border-radius: var(--radius-md);
+        }
+
+        .tool-card:hover::before {
+            opacity: 1;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg), var(--shadow-gold);
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
+        .tool-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            transition: var(--transition-smooth);
+        }
+
+        .tool-card:hover .tool-icon {
+            transform: scale(1.1) rotate(5deg);
+            filter: drop-shadow(0 0 20px var(--primary-glow));
+        }
+
+        .tool-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .tool-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            line-height: 1.6;
+        }
+
+        /* Harmony Section */
+        .harmony-section {
+            background: var(--gradient-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .harmony-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            border-radius: var(--radius-lg);
+        }
+
+        .harmony-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .harmony-tab {
+            padding: 0.75rem 1.5rem;
+            background: rgba(20, 20, 28, 0.6);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            white-space: nowrap;
+        }
+
+        .harmony-tab:hover {
+            border-color: var(--border-medium);
+            color: #fff;
+        }
+
+        .harmony-tab.active {
+            background: var(--gradient-primary);
+            border-color: var(--primary);
+            color: #000;
+        }
+
+        .harmony-colors {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .harmony-color {
+            flex: 1;
+            min-width: 100px;
+            min-height: 120px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 1rem;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #fff;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .harmony-color:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Gradient Section */
+        .gradient-section {
+            background: var(--gradient-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gradient-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            border-radius: var(--radius-lg);
+        }
+
+        .gradient-preview {
+            height: 200px;
+            border-radius: var(--radius-md);
+            margin-bottom: 1.5rem;
+            border: 2px solid var(--border-medium);
+            position: relative;
+            z-index: 1;
+            transition: var(--transition-smooth);
+        }
+
+        .gradient-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .gradient-control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .gradient-control-group label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .gradient-control-group input[type="color"] {
+            width: 100%;
+            height: 50px;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            background: transparent;
+        }
+
+        .gradient-control-group select {
+            padding: 0.75rem;
+            background: rgba(20, 20, 28, 0.6);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-weight: 600;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .gradient-css-output {
+            background: rgba(20, 20, 28, 0.8);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--accent);
+            position: relative;
+            z-index: 1;
+            word-break: break-all;
+        }
+
+        /* Favorites & Recent */
+        .favorites-section {
+            background: var(--gradient-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .favorites-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            border-radius: var(--radius-lg);
+        }
+
+        .favorites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 0.75rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .fav-color {
+            aspect-ratio: 1;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        .fav-color:hover {
+            transform: scale(1.1);
+            border-color: #fff;
+            box-shadow: var(--shadow-md);
+        }
+
+        .fav-color::after {
+            content: '\f00d';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 20px;
+            height: 20px;
+            background: rgba(0,0,0,0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            color: #fff;
+            opacity: 0;
+            transition: var(--transition-fast);
+        }
+
+        .fav-color:hover::after {
+            opacity: 1;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--gradient-card);
+            border: 1px solid var(--primary);
+            border-radius: var(--radius-sm);
+            padding: 1rem 2rem;
+            color: #fff;
+            font-weight: 700;
+            box-shadow: var(--shadow-lg), 0 0 30px var(--primary-glow);
+            z-index: 10000;
+            transition: var(--transition-bounce);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast i {
+            color: #00ff88;
+        }
+
+        /* Back Button */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.875rem 2rem;
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 800;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            margin-bottom: 2rem;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .back-btn:hover {
+            background: var(--primary);
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px var(--primary-glow);
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(13, 13, 20, 0.95);
+            border-top: 1px solid var(--border-subtle);
+            padding: 2rem;
+            margin-top: 4rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.05) 0%, transparent 50%, rgba(0, 217, 255, 0.03) 100%);
+            pointer-events: none;
+        }
+
+        .footer-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #fff;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #e0e0e0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-logo span {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-bottom {
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: var(--navbar-height);
+                left: 0;
+                width: 100%;
+                background: rgba(13, 13, 20, 0.98);
+                flex-direction: column;
+                padding: 1rem;
+                border-bottom: 1px solid var(--border-subtle);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .picker-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .color-preview-large {
+                height: 200px;
+            }
+
+            .main-wrapper {
+                padding: 1.5rem;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .formats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --navbar-height: 70px;
+            }
+
+            .nav-logo {
+                font-size: 1.3rem;
+            }
+
+            .main-wrapper {
+                padding: 1rem;
+            }
+
+            .page-header h1 {
+                font-size: 1.6rem;
+            }
+
+            .page-header p {
+                font-size: 0.95rem;
+            }
+
+            .color-picker-section,
+            .color-formats-section,
+            .search-section,
+            .harmony-section,
+            .gradient-section,
+            .favorites-section {
+                padding: 1.5rem;
+            }
+
+            .color-preview-large {
+                height: 150px;
+                font-size: 2.5rem;
+            }
+
+            .colors-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                gap: 0.75rem;
+            }
+
+            .palettes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tools-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .gradient-controls {
+                grid-template-columns: 1fr;
+            }
+
+            .harmony-colors {
+                flex-direction: column;
+            }
+
+            .harmony-color {
+                min-height: 80px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .colors-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .categories-tabs {
+                gap: 0.5rem;
+            }
+
+            .category-tab {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="animated-bg"></div>
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+    <div class="ambient-orb orb-3"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">YGR <span>COMMUNITY</span></a>
+
+        <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html" data-section="home"><i class="fas fa-home"></i> <span>الرئيسية</span></a></li>
+            <li><a href="index.html" onclick="showSection('rules'); return false;" data-section="rules"><i class="fas fa-gavel"></i> <span>القوانين</span></a></li>
+            <li><a href="index.html" onclick="showSection('commands'); return false;" data-section="commands"><i class="fas fa-terminal"></i> <span>الأوامر</span></a></li>
+            <li><a href="index.html" onclick="showSection('mappingCommands'); return false;" data-section="mappingCommands"><i class="fas fa-map"></i> <span>أوامر إنشاء الخرائط</span></a></li>
+            <li><a href="index.html" onclick="showSection('reports'); return false;" data-section="reports"><i class="fas fa-exclamation-triangle"></i> <span>البلاغات</span></a></li>
+            <li><a href="index.html" onclick="showSection('developers'); return false;" data-section="developers"><i class="fas fa-code"></i> <span>المطورون</span></a></li>
+            <li><a href="index.html" onclick="showSection('contact'); return false;" data-section="contact"><i class="fas fa-envelope"></i> <span>تواصل معنا</span></a></li>
+            <li><a href="color-studio.html" class="active" data-section="colorStudio"><i class="fas fa-palette"></i> <span>استوديو الألوان</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="main-wrapper">
+        <!-- Back Button -->
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-right"></i> العودة للرئيسية
+        </a>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>🎨 <span>استوديو الألوان</span></h1>
+            <p>أداة احترافية لاستكشاف وتحليل الألوان. اختر لونك المفضل واحصل على جميع التنسيقات المختلفة بنقرة واحدة.</p>
+        </div>
+
+        <!-- Color Picker Section -->
+        <div class="color-picker-section">
+            <h2 class="section-title"><i class="fas fa-eye-dropper"></i> منتقي الألوان</h2>
+            <div class="picker-layout">
+                <div class="color-preview-large" id="colorPreview">
+                    <span id="previewText">#FF0000</span>
+                </div>
+                <div class="picker-controls">
+                    <div class="native-picker-wrapper">
+                        <label>اختر اللون</label>
+                        <input type="color" class="native-color-input" id="nativeColorPicker" value="#ff0000">
+                    </div>
+                    <div class="hex-input-group">
+                        <input type="text" id="hexInput" value="#FF0000" maxlength="7" placeholder="#FF0000">
+                        <button class="btn-apply" onclick="applyHex()">تطبيق</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Color Formats Section -->
+        <div class="color-formats-section">
+            <h2 class="section-title"><i class="fas fa-code"></i> تنسيقات اللون</h2>
+            <div class="formats-grid" id="formatsGrid">
+                <!-- Generated by JS -->
+            </div>
+        </div>
+
+        <!-- Search Section -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="colorSearch" placeholder="ابحث باسم اللون، كود HEX، RGB، HSL..." oninput="filterColors()">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+        </div>
+
+        <!-- Categories Tabs -->
+        <div class="categories-tabs" id="categoriesTabs">
+            <button class="category-tab active" onclick="filterByCategory('all', this)">الكل</button>
+            <button class="category-tab" onclick="filterByCategory('warm', this)">ألوان دافئة</button>
+            <button class="category-tab" onclick="filterByCategory('cold', this)">ألوان باردة</button>
+            <button class="category-tab" onclick="filterByCategory('pastel', this)">ألوان باستيل</button>
+            <button class="category-tab" onclick="filterByCategory('neon', this)">ألوان نيون</button>
+            <button class="category-tab" onclick="filterByCategory('dark', this)">ألوان داكنة</button>
+            <button class="category-tab" onclick="filterByCategory('light', this)">ألوان فاتحة</button>
+            <button class="category-tab" onclick="filterByCategory('gaming', this)">ألوان ألعاب</button>
+            <button class="category-tab" onclick="filterByCategory('luxury', this)">ألوان فاخرة</button>
+            <button class="category-tab" onclick="filterByCategory('nature', this)">ألوان طبيعية</button>
+            <button class="category-tab" onclick="filterByCategory('ocean', this)">ألوان محيط</button>
+            <button class="category-tab" onclick="filterByCategory('sunset', this)">ألوان غروب</button>
+            <button class="category-tab" onclick="filterByCategory('cyber', this)">ألوان سيبر</button>
+            <button class="category-tab" onclick="filterByCategory('metal', this)">ألوان معدنية</button>
+            <button class="category-tab" onclick="filterByCategory('earth', this)">ألوان ترابية</button>
+            <button class="category-tab" onclick="filterByCategory('vintage', this)">ألوان كلاسيكية</button>
+        </div>
+
+        <!-- Colors Grid -->
+        <div class="colors-section">
+            <div class="colors-grid" id="colorsGrid">
+                <!-- Generated by JS -->
+            </div>
+        </div>
+
+        <!-- Palettes Section -->
+        <div class="palettes-section">
+            <h2 class="section-title"><i class="fas fa-swatchbook"></i> لوحات الألوان</h2>
+            <div class="palettes-grid" id="palettesGrid">
+                <!-- Generated by JS -->
+            </div>
+        </div>
+
+        <!-- Tools Section -->
+        <div class="tools-section">
+            <h2 class="section-title"><i class="fas fa-tools"></i> أدوات إضافية</h2>
+            <div class="tools-grid">
+                <div class="tool-card" onclick="generateRandomColor()">
+                    <div class="tool-icon"><i class="fas fa-random"></i></div>
+                    <div class="tool-title">لون عشوائي</div>
+                    <div class="tool-desc">توليد لون عشوائي جميل</div>
+                </div>
+                <div class="tool-card" onclick="generateRandomPalette()">
+                    <div class="tool-icon"><i class="fas fa-palette"></i></div>
+                    <div class="tool-title">لوحة عشوائية</div>
+                    <div class="tool-desc">توليد لوحة ألوان متناسقة</div>
+                </div>
+                <div class="tool-card" onclick="generateGradient()">
+                    <div class="tool-icon"><i class="fas fa-fill-drip"></i></div>
+                    <div class="tool-title">مولد التدرجات</div>
+                    <div class="tool-desc">إنشاء تدرجات لونية مذهلة</div>
+                </div>
+                <div class="tool-card" onclick="toggleHarmony()">
+                    <div class="tool-icon"><i class="fas fa-balance-scale"></i></div>
+                    <div class="tool-title">تناغم الألوان</div>
+                    <div class="tool-desc">اكتشف الألوان المتناغمة</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Harmony Section -->
+        <div class="harmony-section" id="harmonySection" style="display: none;">
+            <h2 class="section-title"><i class="fas fa-balance-scale"></i> تناغم الألوان</h2>
+            <div class="harmony-tabs">
+                <button class="harmony-tab active" onclick="showHarmony('complementary', this)">متكامل</button>
+                <button class="harmony-tab" onclick="showHarmony('analogous', this)">متماثل</button>
+                <button class="harmony-tab" onclick="showHarmony('triadic', this)">ثلاثي</button>
+                <button class="harmony-tab" onclick="showHarmony('split', this)">منقسم</button>
+                <button class="harmony-tab" onclick="showHarmony('mono', this)">أحادي</button>
+            </div>
+            <div class="harmony-colors" id="harmonyColors">
+                <!-- Generated by JS -->
+            </div>
+        </div>
+
+        <!-- Gradient Section -->
+        <div class="gradient-section" id="gradientSection" style="display: none;">
+            <h2 class="section-title"><i class="fas fa-fill-drip"></i> مولد التدرجات</h2>
+            <div class="gradient-preview" id="gradientPreview"></div>
+            <div class="gradient-controls">
+                <div class="gradient-control-group">
+                    <label>اللون الأول</label>
+                    <input type="color" id="gradColor1" value="#ff0000" onchange="updateGradient()">
+                </div>
+                <div class="gradient-control-group">
+                    <label>اللون الثاني</label>
+                    <input type="color" id="gradColor2" value="#0000ff" onchange="updateGradient()">
+                </div>
+                <div class="gradient-control-group">
+                    <label>نوع التدرج</label>
+                    <select id="gradientType" onchange="updateGradient()">
+                        <option value="linear">خطي</option>
+                        <option value="radial">دائري</option>
+                        <option value="conic">مخروطي</option>
+                    </select>
+                </div>
+                <div class="gradient-control-group">
+                    <label>الاتجاه</label>
+                    <select id="gradientDir" onchange="updateGradient()">
+                        <option value="135deg">قطري</option>
+                        <option value="to right">أفقي</option>
+                        <option value="to bottom">عمودي</option>
+                        <option value="45deg">مائل</option>
+                    </select>
+                </div>
+            </div>
+            <div class="gradient-css-output" id="gradientCSS">background: linear-gradient(135deg, #ff0000, #0000ff);</div>
+        </div>
+
+        <!-- Favorites Section -->
+        <div class="favorites-section">
+            <h2 class="section-title"><i class="fas fa-heart"></i> الألوان المفضلة</h2>
+            <div class="favorites-grid" id="favoritesGrid">
+                <div class="empty-state">
+                    <i class="fas fa-heart-broken"></i>
+                    <p>لا توجد ألوان مفضلة بعد</p>
+                    <p style="font-size: 0.85rem; margin-top: 0.5rem;">اضغط على أي لون لإضافته للمفضلة</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">YGR <span>COMMUNITY</span></div>
+            <div class="footer-bottom">
+                <p>© 2026 YGR COMMUNITY. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMsg">تم النسخ!</span>
+    </div>
+
+    <script>
+        // ========== COLOR DATABASE ==========
+        const colorDatabase = [
+            // Red Family
+            { name: 'أحمر', hex: '#FF0000', category: 'warm' },
+            { name: 'أحمر غامق', hex: '#8B0000', category: 'dark' },
+            { name: 'أحمر فاتح', hex: '#FF6B6B', category: 'light' },
+            { name: 'أحمر قاني', hex: '#DC143C', category: 'warm' },
+            { name: 'أحمر ناري', hex: '#FF4500', category: 'warm' },
+            { name: 'قرمزي', hex: '#DC143C', category: 'warm' },
+            { name: 'أحمر ناري', hex: '#FF2400', category: 'neon' },
+            { name: 'أحمر زمردي', hex: '#FF3131', category: 'neon' },
+            { name: 'أحمر وردي', hex: '#FF073A', category: 'neon' },
+            { name: 'دم', hex: '#660000', category: 'dark' },
+            { name: 'خمر', hex: '#722F37', category: 'dark' },
+            { name: 'أحمر هندي', hex: '#CD5C5C', category: 'warm' },
+            { name: 'أحمر مرجاني', hex: '#FF7F50', category: 'warm' },
+            { name: 'أحمر طوبي', hex: '#B22222', category: 'warm' },
+            { name: 'أحمر إسباني', hex: '#E60000', category: 'warm' },
+
+            // Orange Family
+            { name: 'برتقالي', hex: '#FFA500', category: 'warm' },
+            { name: 'برتقالي غامق', hex: '#FF8C00', category: 'warm' },
+            { name: 'برتقالي فاتح', hex: '#FFB347', category: 'light' },
+            { name: 'كهرماني', hex: '#FFBF00', category: 'warm' },
+            { name: 'ذهبي', hex: '#FFD700', category: 'luxury' },
+            { name: 'برتقالي محروق', hex: '#CC5500', category: 'earth' },
+            { name: 'برتقالي نيون', hex: '#FF6600', category: 'neon' },
+            { name: 'برتقالي شمسي', hex: '#FF7518', category: 'sunset' },
+            { name: 'برتقالي غروب', hex: '#FF7722', category: 'sunset' },
+
+            // Yellow Family
+            { name: 'أصفر', hex: '#FFFF00', category: 'warm' },
+            { name: 'أصفر غامق', hex: '#CC9900', category: 'warm' },
+            { name: 'أصفر فاتح', hex: '#FFFFE0', category: 'light' },
+            { name: 'ليموني', hex: '#FFF44F', category: 'light' },
+            { name: 'أصفر نيون', hex: '#FFFF33', category: 'neon' },
+            { name: 'خردلي', hex: '#FFDB58', category: 'earth' },
+            { name: 'أصفر شمسي', hex: '#FFC300', category: 'sunset' },
+            { name: 'أصفر ذهبي', hex: '#FFD700', category: 'luxury' },
+            { name: 'أصفر كبريتي', hex: '#E9FF1A', category: 'neon' },
+            { name: 'أصفر باستيل', hex: '#FDFD96', category: 'pastel' },
+
+            // Green Family
+            { name: 'أخضر', hex: '#008000', category: 'nature' },
+            { name: 'أخضر غامق', hex: '#006400', category: 'dark' },
+            { name: 'أخضر فاتح', hex: '#90EE90', category: 'light' },
+            { name: 'ليموني أخضر', hex: '#32CD32', category: 'nature' },
+            { name: 'أخضر غابي', hex: '#228B22', category: 'nature' },
+            { name: 'أخضر زمردي', hex: '#50C878', category: 'nature' },
+            { name: 'أخضر نعناعي', hex: '#98FF98', category: 'pastel' },
+            { name: 'أخضر نيون', hex: '#39FF14', category: 'neon' },
+            { name: 'أخضر سيبر', hex: '#00FF41', category: 'cyber' },
+            { name: 'أخضر بحري', hex: '#2E8B57', category: 'ocean' },
+            { name: 'أخضر مائي', hex: '#00FF7F', category: 'nature' },
+            { name: 'أخضر زيتوني', hex: '#808000', category: 'earth' },
+            { name: 'أخضر ربيعي', hex: '#00FF7F', category: 'nature' },
+            { name: 'أخضر باستيل', hex: '#77DD77', category: 'pastel' },
+            { name: 'أخضر غامق جداً', hex: '#003300', category: 'dark' },
+
+            // Teal & Cyan Family
+            { name: 'تيل', hex: '#008080', category: 'ocean' },
+            { name: 'تيل غامق', hex: '#006666', category: 'ocean' },
+            { name: 'تيل فاتح', hex: '#48D1CC', category: 'ocean' },
+            { name: 'سماوي', hex: '#00FFFF', category: 'ocean' },
+            { name: 'سماوي غامق', hex: '#00CED1', category: 'ocean' },
+            { name: 'سماوي نيون', hex: '#00FFFF', category: 'neon' },
+            { name: 'سماوي سيبر', hex: '#00F0FF', category: 'cyber' },
+            { name: 'تركواز', hex: '#40E0D0', category: 'ocean' },
+            { name: 'تركواز غامق', hex: '#00CED1', category: 'ocean' },
+            { name: 'أزرق مائي', hex: '#00BFFF', category: 'ocean' },
+
+            // Blue Family
+            { name: 'أزرق', hex: '#0000FF', category: 'cold' },
+            { name: 'أزرق غامق', hex: '#00008B', category: 'dark' },
+            { name: 'أزرق فاتح', hex: '#ADD8E6', category: 'light' },
+            { name: 'أزرق سماوي', hex: '#87CEEB', category: 'light' },
+            { name: 'أزرق ملكي', hex: '#4169E1', category: 'luxury' },
+            { name: 'أزرق محيطي', hex: '#006994', category: 'ocean' },
+            { name: 'أزرق داكن', hex: '#000080', category: 'dark' },
+            { name: 'أزرق نافي', hex: '#000080', category: 'dark' },
+            { name: 'أزرق نيون', hex: '#0066FF', category: 'neon' },
+            { name: 'أزرق سيبر', hex: '#00F', category: 'cyber' },
+            { name: 'أزرق باستيل', hex: '#B0E0E6', category: 'pastel' },
+            { name: 'أزرق فولاذي', hex: '#4682B4', category: 'metal' },
+            { name: 'أزرق كورني', hex: '#6495ED', category: 'cold' },
+            { name: 'أزرق أطلسي', hex: '#0077BE', category: 'ocean' },
+            { name: 'أزرق لازوردي', hex: '#1E90FF', category: 'cold' },
+            { name: 'أزرق متوسط', hex: '#0000CD', category: 'cold' },
+
+            // Purple Family
+            { name: 'بنفسجي', hex: '#800080', category: 'cold' },
+            { name: 'بنفسجي غامق', hex: '#4B0082', category: 'dark' },
+            { name: 'بنفسجي فاتح', hex: '#D8BFD8', category: 'light' },
+            { name: 'بنفسجي ملكي', hex: '#7851A9', category: 'luxury' },
+            { name: 'بنفسجي نيون', hex: '#BF00FF', category: 'neon' },
+            { name: 'بنفسجي سيبر', hex: '#BC13FE', category: 'cyber' },
+            { name: 'بنفسجي باستيل', hex: '#E6E6FA', category: 'pastel' },
+            { name: 'بنفسجي أرجواني', hex: '#9400D3', category: 'cold' },
+            { name: 'بنفسجي داكن', hex: '#301934', category: 'dark' },
+            { name: 'بنفسجي وردي', hex: '#CC99FF', category: 'pastel' },
+            { name: 'بنفسجي محروق', hex: '#800020', category: 'dark' },
+
+            // Pink Family
+            { name: 'وردي', hex: '#FFC0CB', category: 'pastel' },
+            { name: 'وردي غامق', hex: '#FF1493', category: 'warm' },
+            { name: 'وردي فاتح', hex: '#FFB6C1', category: 'light' },
+            { name: 'وردي نيون', hex: '#FF10F0', category: 'neon' },
+            { name: 'وردي سيبر', hex: '#FF00FF', category: 'cyber' },
+            { name: 'وردي ساخن', hex: '#FF69B4', category: 'warm' },
+            { name: 'وردي باستيل', hex: '#FFD1DC', category: 'pastel' },
+            { name: 'وردي عميق', hex: '#FF1493', category: 'warm' },
+            { name: 'وردي قطيفي', hex: '#E75480', category: 'warm' },
+            { name: 'ماجنتا', hex: '#FF00FF', category: 'neon' },
+
+            // Brown Family
+            { name: 'بني', hex: '#8B4513', category: 'earth' },
+            { name: 'بني غامق', hex: '#654321', category: 'dark' },
+            { name: 'بني فاتح', hex: '#D2B48C', category: 'light' },
+            { name: 'بني شوكولاتة', hex: '#7B3F00', category: 'earth' },
+            { name: 'بني قهوة', hex: '#6F4E37', category: 'earth' },
+            { name: 'بني محروق', hex: '#8B4513', category: 'earth' },
+            { name: 'بني رملي', hex: '#C2B280', category: 'earth' },
+            { name: 'بني خشبي', hex: '#966F33', category: 'earth' },
+            { name: 'بني كراميل', hex: '#FFD59E', category: 'light' },
+            { name: 'بني توبacco', hex: '#967259', category: 'earth' },
+
+            // Gray Family
+            { name: 'رمادي', hex: '#808080', category: 'cold' },
+            { name: 'رمادي غامق', hex: '#404040', category: 'dark' },
+            { name: 'رمادي فاتح', hex: '#D3D3D3', category: 'light' },
+            { name: 'رمادي فضي', hex: '#C0C0C0', category: 'metal' },
+            { name: 'رمادي حديدي', hex: '#71797E', category: 'metal' },
+            { name: 'رمادي متوسط', hex: '#696969', category: 'cold' },
+            { name: 'رمادي داكن', hex: '#2F4F4F', category: 'dark' },
+            { name: 'رمادي خفيف', hex: '#E0E0E0', category: 'light' },
+            { name: 'رمادي حجري', hex: '#A9A9A9', category: 'earth' },
+
+            // White & Black Family
+            { name: 'أبيض', hex: '#FFFFFF', category: 'light' },
+            { name: 'أبيض عاجي', hex: '#FFFFF0', category: 'light' },
+            { name: 'أبيض ثلجي', hex: '#FFFAFA', category: 'light' },
+            { name: 'أسود', hex: '#000000', category: 'dark' },
+            { name: 'أسود فحمي', hex: '#1B1B1B', category: 'dark' },
+            { name: 'أسود زيتي', hex: '#0D0D0D', category: 'dark' },
+            { name: 'رمادي كحلي', hex: '#2C3E50', category: 'dark' },
+            { name: 'رمادي فحمي', hex: '#36454F', category: 'dark' },
+
+            // Gaming Colors
+            { name: 'أخضر حربي', hex: '#4B5320', category: 'gaming' },
+            { name: 'أزرق عسكري', hex: '#3C5A6E', category: 'gaming' },
+            { name: 'أحمر عسكري', hex: '#8B0000', category: 'gaming' },
+            { name: 'أخضر زمردي', hex: '#50C878', category: 'gaming' },
+            { name: 'أزرق كهربائي', hex: '#7DF9FF', category: 'gaming' },
+            { name: 'أحمر ناري', hex: '#FF4500', category: 'gaming' },
+            { name: 'بنفسجي سحري', hex: '#9B59B6', category: 'gaming' },
+            { name: 'ذهبي ملكي', hex: '#FFD700', category: 'gaming' },
+
+            // Luxury Colors
+            { name: 'ذهبي', hex: '#FFD700', category: 'luxury' },
+            { name: 'ذهبي غامق', hex: '#B8860B', category: 'luxury' },
+            { name: 'ذهبي فاتح', hex: '#F0E68C', category: 'luxury' },
+            { name: 'فضي', hex: '#C0C0C0', category: 'luxury' },
+            { name: 'فضي غامق', hex: '#A9A9A9', category: 'luxury' },
+            { name: 'برونزي', hex: '#CD7F32', category: 'luxury' },
+            { name: 'نحاسي', hex: '#B87333', category: 'luxury' },
+            { name: 'بلاتيني', hex: '#E5E4E2', category: 'luxury' },
+            { name: 'ماسي', hex: '#B9F2FF', category: 'luxury' },
+            { name: 'ياقوتي', hex: '#E0115F', category: 'luxury' },
+
+            // Nature Colors
+            { name: 'أخضر غابي', hex: '#228B22', category: 'nature' },
+            { name: 'أخضر زيتوني', hex: '#808000', category: 'nature' },
+            { name: 'بني ترابي', hex: '#8B4513', category: 'nature' },
+            { name: 'أزرق سمائي', hex: '#87CEEB', category: 'nature' },
+            { name: 'أصفر شمسي', hex: '#FFC300', category: 'nature' },
+            { name: 'أخضر مائي', hex: '#00FF7F', category: 'nature' },
+            { name: 'بني خشبي', hex: '#966F33', category: 'nature' },
+            { name: 'أخضر حرشي', hex: '#355E3B', category: 'nature' },
+            { name: 'أزرق ليلي', hex: '#191970', category: 'nature' },
+            { name: 'وردي زهري', hex: '#FFB6C1', category: 'nature' },
+
+            // Ocean Colors
+            { name: 'أزرق محيطي', hex: '#006994', category: 'ocean' },
+            { name: 'أزرق أطلسي', hex: '#0077BE', category: 'ocean' },
+            { name: 'أزرق عميق', hex: '#003366', category: 'ocean' },
+            { name: 'سماوي مائي', hex: '#00BFFF', category: 'ocean' },
+            { name: 'تركوازي', hex: '#40E0D0', category: 'ocean' },
+            { name: 'أزرق لازوردي', hex: '#1E90FF', category: 'ocean' },
+            { name: 'أزرق كوبي', hex: '#00BFFF', category: 'ocean' },
+            { name: 'أزرق تيفاني', hex: '#0ABAB5', category: 'ocean' },
+
+            // Sunset Colors
+            { name: 'برتقالي غروب', hex: '#FF7722', category: 'sunset' },
+            { name: 'أحمر غروب', hex: '#FF4500', category: 'sunset' },
+            { name: 'بنفسجي غروب', hex: '#8B008B', category: 'sunset' },
+            { name: 'وردي غروب', hex: '#FF69B4', category: 'sunset' },
+            { name: 'ذهبي غروب', hex: '#FFD700', category: 'sunset' },
+            { name: 'أصفر غروب', hex: '#FFC300', category: 'sunset' },
+            { name: 'أحمر سماوي', hex: '#FF6347', category: 'sunset' },
+            { name: 'برتقالي شمسي', hex: '#FF7518', category: 'sunset' },
+
+            // Cyber Colors
+            { name: 'أزرق سيبر', hex: '#00F', category: 'cyber' },
+            { name: 'وردي سيبر', hex: '#FF00FF', category: 'cyber' },
+            { name: 'أخضر سيبر', hex: '#00FF41', category: 'cyber' },
+            { name: 'سماوي سيبر', hex: '#00F0FF', category: 'cyber' },
+            { name: 'بنفسجي سيبر', hex: '#BC13FE', category: 'cyber' },
+            { name: 'أصفر سيبر', hex: '#FFFF00', category: 'cyber' },
+            { name: 'أحمر سيبر', hex: '#FF003C', category: 'cyber' },
+            { name: 'برتقالي سيبر', hex: '#FF6600', category: 'cyber' },
+
+            // Metal Colors
+            { name: 'فضي', hex: '#C0C0C0', category: 'metal' },
+            { name: 'ذهبي', hex: '#FFD700', category: 'metal' },
+            { name: 'نحاسي', hex: '#B87333', category: 'metal' },
+            { name: 'برونزي', hex: '#CD7F32', category: 'metal' },
+            { name: 'حديدي', hex: '#71797E', category: 'metal' },
+            { name: 'صلب', hex: '#71797E', category: 'metal' },
+            { name: 'رصاصي', hex: '#2F4F4F', category: 'metal' },
+            { name: 'تيتانيوم', hex: '#878681', category: 'metal' },
+
+            // Earth Colors
+            { name: 'بني ترابي', hex: '#8B4513', category: 'earth' },
+            { name: 'بني رملي', hex: '#C2B280', category: 'earth' },
+            { name: 'أخضر زيتوني', hex: '#808000', category: 'earth' },
+            { name: 'بني خشبي', hex: '#966F33', category: 'earth' },
+            { name: 'بيج', hex: '#F5F5DC', category: 'earth' },
+            { name: 'خمري', hex: '#CC7722', category: 'earth' },
+            { name: 'بني قهوة', hex: '#6F4E37', category: 'earth' },
+            { name: 'أخضر حرشي', hex: '#355E3B', category: 'earth' },
+            { name: 'بني توبacco', hex: '#967259', category: 'earth' },
+            { name: 'رمادي حجري', hex: '#A9A9A9', category: 'earth' },
+
+            // Vintage Colors
+            { name: 'بيج كلاسيكي', hex: '#F5F5DC', category: 'vintage' },
+            { name: 'بني محروق', hex: '#8B4513', category: 'vintage' },
+            { name: 'أزرق بحري', hex: '#000080', category: 'vintage' },
+            { name: 'أحمر نبيذي', hex: '#722F37', category: 'vintage' },
+            { name: 'أخضر زيتوني', hex: '#808000', category: 'vintage' },
+            { name: 'ذهبي قديم', hex: '#B8860B', category: 'vintage' },
+            { name: 'رمادي قديم', hex: '#808080', category: 'vintage' },
+            { name: 'بني شوكولاتة', hex: '#7B3F00', category: 'vintage' },
+            { name: 'أحمر طوبي', hex: '#B22222', category: 'vintage' },
+            { name: 'أزرق كوبي', hex: '#003366', category: 'vintage' },
+
+            // Pastel Colors
+            { name: 'وردي باستيل', hex: '#FFD1DC', category: 'pastel' },
+            { name: 'أزرق باستيل', hex: '#B0E0E6', category: 'pastel' },
+            { name: 'أخضر باستيل', hex: '#77DD77', category: 'pastel' },
+            { name: 'أصفر باستيل', hex: '#FDFD96', category: 'pastel' },
+            { name: 'بنفسجي باستيل', hex: '#E6E6FA', category: 'pastel' },
+            { name: 'برتقالي باستيل', hex: '#FFB347', category: 'pastel' },
+            { name: 'أحمر باستيل', hex: '#FFB3BA', category: 'pastel' },
+            { name: 'رمادي باستيل', hex: '#D3D3D3', category: 'pastel' },
+
+            // Neon Colors
+            { name: 'أحمر نيون', hex: '#FF2400', category: 'neon' },
+            { name: 'برتقالي نيون', hex: '#FF6600', category: 'neon' },
+            { name: 'أصفر نيون', hex: '#FFFF33', category: 'neon' },
+            { name: 'أخضر نيون', hex: '#39FF14', category: 'neon' },
+            { name: 'سماوي نيون', hex: '#00FFFF', category: 'neon' },
+            { name: 'أزرق نيون', hex: '#0066FF', category: 'neon' },
+            { name: 'بنفسجي نيون', hex: '#BF00FF', category: 'neon' },
+            { name: 'وردي نيون', hex: '#FF10F0', category: 'neon' },
+
+            // Dark Colors
+            { name: 'أسود', hex: '#000000', category: 'dark' },
+            { name: 'أسود فحمي', hex: '#1B1B1B', category: 'dark' },
+            { name: 'رمادي غامق', hex: '#404040', category: 'dark' },
+            { name: 'أزرق داكن', hex: '#000080', category: 'dark' },
+            { name: 'أحمر غامق', hex: '#8B0000', category: 'dark' },
+            { name: 'أخضر غامق', hex: '#006400', category: 'dark' },
+            { name: 'بنفسجي غامق', hex: '#4B0082', category: 'dark' },
+            { name: 'بني غامق', hex: '#654321', category: 'dark' },
+
+            // Light Colors
+            { name: 'أبيض', hex: '#FFFFFF', category: 'light' },
+            { name: 'أبيض عاجي', hex: '#FFFFF0', category: 'light' },
+            { name: 'رمادي فاتح', hex: '#D3D3D3', category: 'light' },
+            { name: 'أزرق فاتح', hex: '#ADD8E6', category: 'light' },
+            { name: 'أحمر فاتح', hex: '#FF6B6B', category: 'light' },
+            { name: 'أخضر فاتح', hex: '#90EE90', category: 'light' },
+            { name: 'أصفر فاتح', hex: '#FFFFE0', category: 'light' },
+            { name: 'وردي فاتح', hex: '#FFB6C1', category: 'light' },
+        ];
+
+        // ========== PALETTES DATABASE ==========
+        const palettesDatabase = [
+            {
+                name: 'حديث',
+                icon: 'fa-mobile-alt',
+                colors: ['#2C3E50', '#E74C3C', '#ECF0F1', '#3498DB', '#1ABC9C']
+            },
+            {
+                name: 'فاخر',
+                icon: 'fa-crown',
+                colors: ['#1A1A2E', '#16213E', '#0F3460', '#E94560', '#FFD700']
+            },
+            {
+                name: 'ألعاب',
+                icon: 'fa-gamepad',
+                colors: ['#0F0F0F', '#1A1A2E', '#16213E', '#E94560', '#00FF88']
+            },
+            {
+                name: 'سيبربانك',
+                icon: 'fa-robot',
+                colors: ['#0B0C10', '#1F2833', '#C5C6C7', '#66FCF1', '#45A29E']
+            },
+            {
+                name: 'طبيعة',
+                icon: 'fa-leaf',
+                colors: ['#2D5016', '#4A7C23', '#8FBC8F', '#D2B48C', '#F5DEB3']
+            },
+            {
+                name: 'محيط',
+                icon: 'fa-water',
+                colors: ['#006994', '#0077BE', '#00BFFF', '#40E0D0', '#E0FFFF']
+            },
+            {
+                name: 'غابة',
+                icon: 'fa-tree',
+                colors: ['#0B3D0B', '#1B5E20', '#2E7D32', '#4CAF50', '#81C784']
+            },
+            {
+                name: 'نار',
+                icon: 'fa-fire',
+                colors: ['#1A0000', '#8B0000', '#FF4500', '#FF6347', '#FFD700']
+            },
+            {
+                name: 'جليد',
+                icon: 'fa-snowflake',
+                colors: ['#E0F7FA', '#B2EBF2', '#80DEEA', '#4DD0E1', '#00BCD4']
+            },
+            {
+                name: 'شرطة',
+                icon: 'fa-shield-alt',
+                colors: ['#000080', '#0000CD', '#4169E1', '#6495ED', '#87CEEB']
+            },
+            {
+                name: 'مستشفى',
+                icon: 'fa-hospital',
+                colors: ['#E3F2FD', '#BBDEFB', '#90CAF9', '#64B5F6', '#1E88E5']
+            },
+            {
+                name: 'الوضع الليلي',
+                icon: 'fa-moon',
+                colors: ['#0D0D0D', '#1A1A1A', '#2D2D2D', '#404040', '#606060']
+            },
+            {
+                name: 'نيون',
+                icon: 'fa-lightbulb',
+                colors: ['#FF00FF', '#00FFFF', '#FF00FF', '#FFFF00', '#00FF00']
+            },
+            {
+                name: 'غروب',
+                icon: 'fa-cloud-sun',
+                colors: ['#FF4500', '#FF6347', '#FF8C00', '#FFA500', '#FFD700']
+            },
+            {
+                name: 'ملكي',
+                icon: 'fa-chess-king',
+                colors: ['#4B0082', '#6A0DAD', '#8A2BE2', '#9370DB', '#D8BFD8']
+            },
+            {
+                name: 'بسيط',
+                icon: 'fa-minus',
+                colors: ['#FFFFFF', '#F5F5F5', '#EEEEEE', '#E0E0E0', '#BDBDBD']
+            }
+        ];
+
+        // ========== STATE ==========
+        let currentColor = '#FF0000';
+        let favorites = JSON.parse(localStorage.getItem('colorStudioFavorites') || '[]');
+        let recentColors = JSON.parse(localStorage.getItem('colorStudioRecent') || '[]');
+        let currentCategory = 'all';
+
+        // ========== INITIALIZATION ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            updateColorDisplay(currentColor);
+            renderColors();
+            renderPalettes();
+            renderFavorites();
+            updateGradient();
+            
+            // Native color picker
+            document.getElementById('nativeColorPicker').addEventListener('input', function(e) {
+                updateColorDisplay(e.target.value);
+            });
+
+            // Hex input enter key
+            document.getElementById('hexInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') applyHex();
+            });
+        });
+
+        // ========== COLOR CONVERSION FUNCTIONS ==========
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        function rgbToHsl(r, g, b) {
+            r /= 255; g /= 255; b /= 255;
+            const max = Math.max(r, g, b), min = Math.min(r, g, b);
+            let h, s, l = (max + min) / 2;
+            if (max === min) { h = s = 0; }
+            else {
+                const d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                switch (max) {
+                    case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+                    case g: h = ((b - r) / d + 2) / 6; break;
+                    case b: h = ((r - g) / d + 4) / 6; break;
+                }
+            }
+            return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
+        }
+
+        function rgbToHsv(r, g, b) {
+            r /= 255; g /= 255; b /= 255;
+            const max = Math.max(r, g, b), min = Math.min(r, g, b);
+            let h, s, v = max;
+            const d = max - min;
+            s = max === 0 ? 0 : d / max;
+            if (max === min) { h = 0; }
+            else {
+                switch (max) {
+                    case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+                    case g: h = ((b - r) / d + 2) / 6; break;
+                    case b: h = ((r - g) / d + 4) / 6; break;
+                }
+            }
+            return { h: Math.round(h * 360), s: Math.round(s * 100), v: Math.round(v * 100) };
+        }
+
+        function rgbToCmyk(r, g, b) {
+            r /= 255; g /= 255; b /= 255;
+            const k = 1 - Math.max(r, g, b);
+            const c = (1 - r - k) / (1 - k) || 0;
+            const m = (1 - g - k) / (1 - k) || 0;
+            const y = (1 - b - k) / (1 - k) || 0;
+            return { c: Math.round(c * 100), m: Math.round(m * 100), y: Math.round(y * 100), k: Math.round(k * 100) };
+        }
+
+        function rgbToXyz(r, g, b) {
+            r /= 255; g /= 255; b /= 255;
+            r = r > 0.04045 ? Math.pow((r + 0.055) / 1.055, 2.4) : r / 12.92;
+            g = g > 0.04045 ? Math.pow((g + 0.055) / 1.055, 2.4) : g / 12.92;
+            b = b > 0.04045 ? Math.pow((b + 0.055) / 1.055, 2.4) : b / 12.92;
+            const x = (r * 0.4124564 + g * 0.3575761 + b * 0.1804375) * 100;
+            const y = (r * 0.2126729 + g * 0.7151522 + b * 0.0721750) * 100;
+            const z = (r * 0.0193339 + g * 0.1191920 + b * 0.9503041) * 100;
+            return { x: Math.round(x * 100) / 100, y: Math.round(y * 100) / 100, z: Math.round(z * 100) / 100 };
+        }
+
+        function xyzToLab(x, y, z) {
+            const xn = 95.047, yn = 100.000, zn = 108.883;
+            const fx = x / xn > 0.008856 ? Math.pow(x / xn, 1/3) : (7.787 * x / xn) + 16/116;
+            const fy = y / yn > 0.008856 ? Math.pow(y / yn, 1/3) : (7.787 * y / yn) + 16/116;
+            const fz = z / zn > 0.008856 ? Math.pow(z / zn, 1/3) : (7.787 * z / zn) + 16/116;
+            const l = (116 * fy) - 16;
+            const a = 500 * (fx - fy);
+            const bVal = 200 * (fy - fz);
+            return { l: Math.round(l * 100) / 100, a: Math.round(a * 100) / 100, b: Math.round(bVal * 100) / 100 };
+        }
+
+        function labToLch(l, a, b) {
+            const c = Math.sqrt(a * a + b * b);
+            let h = Math.atan2(b, a) * 180 / Math.PI;
+            if (h < 0) h += 360;
+            return { l: l, c: Math.round(c * 100) / 100, h: Math.round(h * 100) / 100 };
+        }
+
+        function rgbToOklab(r, g, b) {
+            r /= 255; g /= 255; b /= 255;
+            const l = 0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b;
+            const m = 0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b;
+            const s = 0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b;
+            const l_ = Math.cbrt(l);
+            const m_ = Math.cbrt(m);
+            const s_ = Math.cbrt(s);
+            return {
+                L: Math.round((0.2104542553 * l_ + 0.7936177850 * m_ - 0.0040720468 * s_) * 100) / 100,
+                a: Math.round((1.9779984951 * l_ - 2.4285922050 * m_ + 0.4505937099 * s_) * 100) / 100,
+                b: Math.round((0.0259040371 * l_ + 0.7827717662 * m_ - 0.8086757660 * s_) * 100) / 100
+            };
+        }
+
+        function oklabToOklch(L, a, b) {
+            const c = Math.sqrt(a * a + b * b);
+            let h = Math.atan2(b, a) * 180 / Math.PI;
+            if (h < 0) h += 360;
+            return { L: L, C: Math.round(c * 100) / 100, h: Math.round(h * 100) / 100 };
+        }
+
+        // ========== UPDATE COLOR DISPLAY ==========
+        function updateColorDisplay(hex) {
+            currentColor = hex.toUpperCase();
+            const rgb = hexToRgb(currentColor);
+            const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+            const hsv = rgbToHsv(rgb.r, rgb.g, rgb.b);
+            const cmyk = rgbToCmyk(rgb.r, rgb.g, rgb.b);
+            const xyz = rgbToXyz(rgb.r, rgb.g, rgb.b);
+            const lab = xyzToLab(xyz.x, xyz.y, xyz.z);
+            const lch = labToLch(lab.l, lab.a, lab.b);
+            const oklab = rgbToOklab(rgb.r, rgb.g, rgb.b);
+            const oklch = oklabToOklch(oklab.L, oklab.a, oklab.b);
+
+            // Update preview
+            document.getElementById('colorPreview').style.background = currentColor;
+            document.getElementById('previewText').textContent = currentColor;
+            document.getElementById('nativeColorPicker').value = currentColor;
+            document.getElementById('hexInput').value = currentColor;
+
+            // Update formats grid
+            const formats = [
+                { label: 'HEX', value: currentColor },
+                { label: 'RGB', value: `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})` },
+                { label: 'RGBA', value: `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 1)` },
+                { label: 'HSL', value: `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)` },
+                { label: 'HSLA', value: `hsla(${hsl.h}, ${hsl.s}%, ${hsl.l}%, 1)` },
+                { label: 'HSV', value: `hsv(${hsv.h}, ${hsv.s}%, ${hsv.v}%)` },
+                { label: 'CMYK', value: `cmyk(${cmyk.c}%, ${cmyk.m}%, ${cmyk.y}%, ${cmyk.k}%)` },
+                { label: 'LAB', value: `lab(${lab.l}%, ${lab.a}, ${lab.b})` },
+                { label: 'LCH', value: `lch(${lch.l}%, ${lch.c}, ${lch.h}°)` },
+                { label: 'OKLAB', value: `oklab(${oklab.L}% ${oklab.a} ${oklab.b})` },
+                { label: 'OKLCH', value: `oklch(${oklch.L}% ${oklch.C} ${oklch.h}°)` },
+                { label: 'XYZ', value: `xyz(${xyz.x}, ${xyz.y}, ${xyz.z})` }
+            ];
+
+            const grid = document.getElementById('formatsGrid');
+            grid.innerHTML = formats.map(f => `
+                <div class="format-card">
+                    <div class="format-info">
+                        <div class="format-label">${f.label}</div>
+                        <div class="format-value">${f.value}</div>
+                    </div>
+                    <button class="btn-copy" onclick="copyToClipboard('${f.value}', this)" title="نسخ">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+            `).join('');
+
+            // Add to recent
+            addToRecent(currentColor);
+        }
+
+        // ========== APPLY HEX ==========
+        function applyHex() {
+            let hex = document.getElementById('hexInput').value.trim();
+            if (!hex.startsWith('#')) hex = '#' + hex;
+            if (/^#[0-9A-Fa-f]{6}$/.test(hex)) {
+                updateColorDisplay(hex);
+            } else {
+                showToast('صيغة HEX غير صحيحة');
+            }
+        }
+
+        // ========== COPY TO CLIPBOARD ==========
+        function copyToClipboard(text, btn) {
+            navigator.clipboard.writeText(text).then(() => {
+                btn.classList.add('copied');
+                btn.innerHTML = '<i class="fas fa-check"></i>';
+                showToast('تم النسخ بنجاح!');
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    btn.innerHTML = '<i class="fas fa-copy"></i>';
+                }, 2000);
+            });
+        }
+
+        // ========== TOAST ==========
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // ========== RENDER COLORS ==========
+        function renderColors(filter = '') {
+            const grid = document.getElementById('colorsGrid');
+            let colors = colorDatabase;
+            
+            if (currentCategory !== 'all') {
+                colors = colors.filter(c => c.category === currentCategory);
+            }
+            
+            if (filter) {
+                const f = filter.toLowerCase();
+                colors = colors.filter(c => 
+                    c.name.includes(f) || 
+                    c.hex.toLowerCase().includes(f) ||
+                    c.category.includes(f)
+                );
+            }
+
+            grid.innerHTML = colors.map(c => `
+                <div class="color-card" onclick="selectColor('${c.hex}')" data-category="${c.category}">
+                    <div class="color-swatch" style="background: ${c.hex};"></div>
+                    <div class="color-name">${c.name}</div>
+                    <div class="color-hex">${c.hex}</div>
+                </div>
+            `).join('');
+        }
+
+        function selectColor(hex) {
+            updateColorDisplay(hex);
+            addToFavorites(hex);
+        }
+
+        function filterColors() {
+            const search = document.getElementById('colorSearch').value;
+            renderColors(search);
+        }
+
+        function filterByCategory(cat, btn) {
+            currentCategory = cat;
+            document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            renderColors(document.getElementById('colorSearch').value);
+        }
+
+        // ========== RENDER PALETTES ==========
+        function renderPalettes() {
+            const grid = document.getElementById('palettesGrid');
+            grid.innerHTML = palettesDatabase.map(p => `
+                <div class="palette-card">
+                    <div class="palette-title"><i class="fas ${p.icon}"></i> ${p.name}</div>
+                    <div class="palette-colors">
+                        ${p.colors.map(c => `
+                            <div class="palette-color" style="background: ${c};" data-hex="${c}" onclick="selectColor('${c}')"></div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ========== RANDOM COLOR ==========
+        function generateRandomColor() {
+            const hex = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0').toUpperCase();
+            updateColorDisplay(hex);
+            showToast('تم توليد لون عشوائي!');
+        }
+
+        // ========== RANDOM PALETTE ==========
+        function generateRandomPalette() {
+            const colors = [];
+            const baseHue = Math.random() * 360;
+            for (let i = 0; i < 5; i++) {
+                const hue = (baseHue + i * 30 + Math.random() * 20) % 360;
+                const sat = 50 + Math.random() * 40;
+                const light = 30 + Math.random() * 40;
+                colors.push(hslToHex(hue, sat, light));
+            }
+            palettesDatabase.unshift({
+                name: 'عشوائي',
+                icon: 'fa-random',
+                colors: colors
+            });
+            renderPalettes();
+            showToast('تم توليد لوحة عشوائية!');
+        }
+
+        function hslToHex(h, s, l) {
+            l /= 100; const a = s * Math.min(l, 1 - l) / 100;
+            const f = n => {
+                const k = (n + h / 30) % 12;
+                const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+                return Math.round(255 * color).toString(16).padStart(2, '0');
+            };
+            return `#${f(0)}${f(8)}${f(4)}`.toUpperCase();
+        }
+
+        // ========== GRADIENT GENERATOR ==========
+        function generateGradient() {
+            document.getElementById('gradientSection').style.display = 'block';
+            document.getElementById('gradientSection').scrollIntoView({ behavior: 'smooth' });
+            updateGradient();
+        }
+
+        function updateGradient() {
+            const c1 = document.getElementById('gradColor1').value;
+            const c2 = document.getElementById('gradColor2').value;
+            const type = document.getElementById('gradientType').value;
+            const dir = document.getElementById('gradientDir').value;
+            
+            let gradient;
+            if (type === 'linear') {
+                gradient = `linear-gradient(${dir}, ${c1}, ${c2})`;
+            } else if (type === 'radial') {
+                gradient = `radial-gradient(circle, ${c1}, ${c2})`;
+            } else {
+                gradient = `conic-gradient(from 0deg, ${c1}, ${c2}, ${c1})`;
+            }
+            
+            document.getElementById('gradientPreview').style.background = gradient;
+            document.getElementById('gradientCSS').textContent = `background: ${gradient};`;
+        }
+
+        // ========== COLOR HARMONY ==========
+        function toggleHarmony() {
+            const section = document.getElementById('harmonySection');
+            section.style.display = section.style.display === 'none' ? 'block' : 'none';
+            if (section.style.display === 'block') {
+                showHarmony('complementary', document.querySelector('.harmony-tab'));
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function showHarmony(type, btn) {
+            document.querySelectorAll('.harmony-tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            
+            const rgb = hexToRgb(currentColor);
+            const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+            let colors = [];
+            
+            switch(type) {
+                case 'complementary':
+                    colors = [
+                        currentColor,
+                        hslToHex((hsl.h + 180) % 360, hsl.s, hsl.l)
+                    ];
+                    break;
+                case 'analogous':
+                    colors = [
+                        hslToHex((hsl.h - 30 + 360) % 360, hsl.s, hsl.l),
+                        currentColor,
+                        hslToHex((hsl.h + 30) % 360, hsl.s, hsl.l)
+                    ];
+                    break;
+                case 'triadic':
+                    colors = [
+                        currentColor,
+                        hslToHex((hsl.h + 120) % 360, hsl.s, hsl.l),
+                        hslToHex((hsl.h + 240) % 360, hsl.s, hsl.l)
+                    ];
+                    break;
+                case 'split':
+                    colors = [
+                        currentColor,
+                        hslToHex((hsl.h + 150) % 360, hsl.s, hsl.l),
+                        hslToHex((hsl.h + 210) % 360, hsl.s, hsl.l)
+                    ];
+                    break;
+                case 'mono':
+                    colors = [
+                        hslToHex(hsl.h, hsl.s, Math.max(20, hsl.l - 30)),
+                        hslToHex(hsl.h, hsl.s, Math.max(40, hsl.l - 15)),
+                        currentColor,
+                        hslToHex(hsl.h, hsl.s, Math.min(85, hsl.l + 15)),
+                        hslToHex(hsl.h, hsl.s, Math.min(95, hsl.l + 30))
+                    ];
+                    break;
+            }
+            
+            document.getElementById('harmonyColors').innerHTML = colors.map(c => `
+                <div class="harmony-color" style="background: ${c};" onclick="selectColor('${c}')">
+                    ${c}
+                </div>
+            `).join('');
+        }
+
+        // ========== FAVORITES ==========
+        function addToFavorites(hex) {
+            if (!favorites.includes(hex)) {
+                favorites.unshift(hex);
+                if (favorites.length > 20) favorites.pop();
+                localStorage.setItem('colorStudioFavorites', JSON.stringify(favorites));
+                renderFavorites();
+            }
+        }
+
+        function removeFromFavorites(hex) {
+            favorites = favorites.filter(f => f !== hex);
+            localStorage.setItem('colorStudioFavorites', JSON.stringify(favorites));
+            renderFavorites();
+        }
+
+        function renderFavorites() {
+            const grid = document.getElementById('favoritesGrid');
+            if (favorites.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-heart-broken"></i>
+                        <p>لا توجد ألوان مفضلة بعد</p>
+                        <p style="font-size: 0.85rem; margin-top: 0.5rem;">اضغط على أي لون لإضافته للمفضلة</p>
+                    </div>
+                `;
+            } else {
+                grid.innerHTML = favorites.map(f => `
+                    <div class="fav-color" style="background: ${f};" onclick="selectColor('${f}')" onclick="removeFromFavorites('${f}')" title="${f}"></div>
+                `).join('');
+            }
+        }
+
+        // ========== RECENT COLORS ==========
+        function addToRecent(hex) {
+            recentColors = recentColors.filter(c => c !== hex);
+            recentColors.unshift(hex);
+            if (recentColors.length > 15) recentColors.pop();
+            localStorage.setItem('colorStudioRecent', JSON.stringify(recentColors));
+        }
+
+        // ========== MOBILE MENU ==========
+        function toggleMobileMenu() {
+            document.getElementById('navLinks').classList.toggle('show');
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const navLinks = document.getElementById('navLinks');
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            if (!navLinks.contains(e.target) && !menuToggle.contains(e.target) && navLinks.classList.contains('show')) {
+                navLinks.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>
