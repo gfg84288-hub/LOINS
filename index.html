@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>OUTLAW Samp · The elite The elite</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --bg-base: #000000;
+            --surface: #050505;
+            --surface-panel: rgba(10, 10, 12, 0.85);
+            --primary-color: rgb(111, 0, 255); /* Red Cyberpunk */
+            --primary-glow: rgba(55, 0, 255, 0.6);
+            --text-main: #1900ff;
+            --text-dim: #6f00ff;
+            --cyber-border: 1px solid rgba(255, 0, 60, 0.3);
+            --clip-cyber: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+            --clip-card: polygon(0 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color) var(--bg-base);
+        }
+
+        ::-webkit-scrollbar { width: 8px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-base); }
+        ::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 10px; }
+
+      /* Basic modification to prevent the screen from slipping on the mobile phone */
+        html, body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            width: 100%;
+            max-width: 100vw;
+            position: relative;
+            font-size: 16px;
+        }
+
+        body {
+            display: flex;
+        }
+
+        /* تأثير The screen القديمة (CRT Scanlines) */
+        body::after {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 9999;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        /* تأثير الوميض الخفي */
+        .ambient-glow {
+            position: fixed;
+            top: 50%; left: 50%;
+            width: 80vw; height: 80vw;
+            background: radial-gradient(circle, rgba(255,0,60,0.08) 0%, transparent 60%);
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            pointer-events: none;
+            animation: pulseGlow 8s infinite alternate;
+        }
+        @keyframes pulseGlow {
+            0% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        /* ---------------- الشريط الجانبي (Terminal Menu) ---------------- */
+        .sidebar {
+            width: 300px;
+            background: var(--surface-panel);
+            backdrop-filter: blur(20px);
+            border-left: var(--cyber-border);
+            height: 100vh;
+            position: fixed;
+            right: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 2.5rem 1.5rem;
+            z-index: 1000;
+            box-shadow: -10px 0 50px rgba(0,0,0,0.9);
+            overflow-y: auto;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 50px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #fff;
+            position: relative;
+            text-shadow: 0 0 20px var(--primary-glow);
+        }
+        .logo span { color: var(--primary-color); }
+        .logo::before {
+            content: 'SYS.ONLINE';
+            position: absolute;
+            top: -20px; right: 50%; transform: translateX(50%);
+            font-size: 0.7rem; color: #00ff66; letter-spacing: 5px;
+        }
+
+        .nav-label {
+            color: var(--primary-color);
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 900;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .nav-label::before { content: ''; width: 10px; height: 2px; background: var(--primary-color); }
+
+        .sidebar-nav { display: flex; flex-direction: column; gap: 12px; }
+
+        .sidebar-nav a {
+            color: var(--text-dim);
+            text-decoration: none;
+            padding: 15px 20px;
+            font-weight: 800;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(0,0,0,0.5);
+            clip-path: var(--clip-cyber);
+            border: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .sidebar-nav a::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,0,60,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .sidebar-nav a:hover::before { left: 100%; }
+
+        .sidebar-nav a:hover, .sidebar-nav a.active-link {
+            background: var(--primary-color);
+            color: #fff;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 20px var(--primary-glow);
+            transform: scale(1.05);
+        }
+
+        .sidebar-nav a i { font-size: 1.3rem; transition: 0.3s; color: inherit; }
+
+        /* ---------------- الContent Main (Grid System) ---------------- */
+        .main-wrapper {
+            margin-right: 300px;
+            width: calc(100% - 300px);
+            padding: 3rem 4rem;
+            min-height: 100vh;
+            overflow-x: hidden; /* To prevent Slipping internal */
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 30px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .bento-item {
+            background: var(--surface-panel);
+            padding: 40px;
+            position: relative;
+            clip-path: var(--clip-card);
+            border: var(--cyber-border);
+            border-top: 3px solid var(--primary-color);
+            transition: all 0.4s ease;
+        }
+
+        .bento-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9), 0 0 20px var(--primary-glow);
+            background: #0f0f12;
+        }
+
+        /* تأثير الـ Glitch على الهيرو */
+        .bento-hero {
+            grid-column: span 12;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: url('https://via.placeholder.com/1600x800/050505/050505') center/cover;
+            position: relative;
+            padding: 60px;
+        }
+        .bento-hero::after {
+            content: ''; position: absolute; top:0; left:0; width:100%; height:100%;
+            background: radial-gradient(circle at right, transparent 0%, #000 80%);
+            z-index: 0;
+        }
+
+        .hero-text { position: relative; z-index: 1; }
+        .hero-text h1 {
+            font-size: 5rem; font-weight: 900; margin-bottom: 20px; line-height: 1; text-transform: uppercase;
+            position: relative;
+            color: #fff;
+        }
+        
+        .glitch-effect { position: relative; display: inline-block; }
+        .glitch-effect::before, .glitch-effect::after {
+            content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-base);
+        }
+        .glitch-effect::before { left: 3px; text-shadow: -2px 0 red; clip: rect(24px, 550px, 90px, 0); animation: glitch-anim-2 3s infinite linear alternate-reverse; }
+        .glitch-effect::after { left: -3px; text-shadow: -2px 0 blue; clip: rect(85px, 550px, 140px, 0); animation: glitch-anim 2.5s infinite linear alternate-reverse; }
+        @keyframes glitch-anim {
+            0% { clip: rect(15px, 9999px, 71px, 0); } 20% { clip: rect(35px, 9999px, 93px, 0); }
+            40% { clip: rect(83px, 9999px, 11px, 0); } 60% { clip: rect(4px, 9999px, 55px, 0); }
+            80% { clip: rect(66px, 9999px, 16px, 0); } 100% { clip: rect(22px, 9999px, 88px, 0); }
+        }
+
+        .hero-text p {
+            font-size: 1.4rem; color: var(--text-dim); max-width: 600px; font-weight: 600;
+            border-right: 4px solid var(--primary-color); padding-right: 20px;
+        }
+        .hero-image { position: relative; z-index: 1; }
+        .hero-image img {
+            width: 500px; filter: grayscale(100%) contrast(1.2); transition: 0.5s;
+            clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 25%);
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+        .hero-image:hover img { filter: grayscale(0) contrast(1.1); box-shadow: 0 0 40px var(--primary-glow); }
+
+        /* مجProblemع OUTLAW + الديسكورد */
+        .bento-community {
+            grid-column: span 8; font-size: 1.25rem; line-height: 2.2; color: #a1a1aa; font-weight: 600;
+        }
+        .bento-community h2 { color: #fff; margin-bottom: 25px; font-size: 2.2rem; text-transform: uppercase; display: flex; align-items: center; gap:15px;}
+        .bento-community h2 i { color: var(--primary-color); }
+
+        .bento-discord {
+            grid-column: span 4; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+            background: radial-gradient(circle at center, #5865F2 0%, #1e213a 100%); color: #fff; text-decoration: none;
+            border-top: 3px solid #5865F2;
+        }
+        .bento-discord i { font-size: 6rem; margin-bottom: 15px; filter: drop-shadow(0 0 20px #5865F2); transition: 0.3s; }
+        .bento-discord:hover i { transform: scale(1.15) translateY(-10px); }
+
+        /* Department تويتر */
+        .bento-twitter {
+            grid-column: span 12; display: flex; align-items: center; justify-content: space-between;
+            background: linear-gradient(90deg, rgba(29,161,242,0.1), rgba(0,0,0,0.8)); border-left: 5px solid #1DA1F2; border-top: none;
+        }
+        .twitter-info h3 { font-size: 2.5rem; color: #1DA1F2; margin-bottom: 15px; font-weight: 900; letter-spacing: 1px;}
+        .twitter-info p { max-width: 800px; color: var(--text-dim); font-size: 1.2rem; font-weight: 600;}
+        .btn-cyber {
+            background: transparent; color: #1DA1F2; padding: 18px 45px; font-weight: 900; text-decoration: none;
+            clip-path: var(--clip-cyber); font-size: 1.3rem; transition: 0.3s; border: 2px solid #1DA1F2;
+            position: relative; overflow: hidden;
+        }
+        .btn-cyber:hover { background: #1DA1F2; color: #000; box-shadow: 0 0 30px rgba(29,161,242,0.6); }
+
+        /* Department الفيديو */
+        .bento-video { grid-column: span 12; padding: 0; aspect-ratio: 21/9; border: 1px solid var(--primary-color); }
+        .video-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85);
+            display: flex; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(5px);
+        }
+        .video-overlay button {
+            background: var(--primary-color); color: #fff; border: none; padding: 20px 60px; font-size: 1.5rem;
+            font-weight: 900; cursor: pointer; transition: 0.3s; clip-path: var(--clip-cyber); text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .video-overlay button:hover { background: #fff; color: var(--primary-color); box-shadow: 0 0 40px var(--primary-glow); transform: scale(1.05); }
+        .video-iframe { width: 100%; height: 100%; border: none; }
+
+        /* صناع الContent */
+        .bento-creators-title { grid-column: span 12; text-align: center; margin-top: 50px; }
+        .bento-creators-title h2 { font-size: 2.8rem; color: #fff; text-transform: uppercase; font-weight: 900; letter-spacing: 2px; }
+        .bento-creators-title h2 span { color: var(--primary-color); }
+        
+        .bento-creator {
+            grid-column: span 3; text-align: center; text-decoration: none; display: flex; flex-direction: column; align-items: center;
+            background: rgba(10,10,12,0.6); border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .bento-creator:hover { background: rgba(255,0,60,0.1); border-color: var(--primary-color); }
+        .bento-creator img {
+            width: 110px; height: 110px; object-fit: cover; border: 3px solid #222; margin-bottom: 25px; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        }
+        .bento-creator:hover img { border-color: var(--primary-color); transform: scale(1.15) rotate(15deg); box-shadow: 0 0 30px var(--primary-glow); }
+        .bento-creator h4 { color: #fff; font-size: 1.4rem; margin-bottom: 10px; font-weight: 900; }
+        .bento-creator p { color: var(--primary-color); font-size: 1rem; font-weight: 900; background: rgba(255,0,60,0.1); padding: 5px 15px; border-radius: 5px; }
+
+        /* ==========================================================================
+         Laws Section (The Legendary Horizontal Bar)
+           ========================================================================== */
+        .rules-section { display: none; width: 100%; max-width: 1400px; margin: 0 auto; animation: glitchOpen 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        @keyframes glitchOpen { 0% { opacity: 0; transform: scaleY(0); filter: blur(10px); } 100% { opacity: 1; transform: scaleY(1); filter: blur(0); } }
+
+        .rules-nav-container {
+            position: relative;
+            margin-bottom: 40px;
+            padding-bottom: 10px;
+            width: 100%;
+         overflow: hidden; /* to protect the edges */
+        }
+
+        .rules-nav-bar {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding: 10px 10px 25px 10px;
+            scrollbar-width: none;
+            scroll-behavior: smooth;
+        }
+        .rules-nav-bar::-webkit-scrollbar { display: none; }
+        
+        .rule-tab {
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 135px;
+            height: 125px;
+            background: #08080a;
+            border: 2px solid #222;
+            border-radius: 16px;
+            color: #666;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .rule-tab i { font-size: 2.8rem; margin-bottom: 12px; z-index: 2; transition: 0.3s; }
+        .rule-tab span { font-size: 0.95rem; font-weight: 900; z-index: 2; transition: 0.3s; text-align: center; }
+        .rule-tab:hover { border-color: #444; color: #aaa; }
+
+        .rule-tab.active-tab {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: #fff;
+            box-shadow: 0 10px 25px rgba(255, 0, 60, 0.4);
+            transform: translateY(-5px);
+        }
+
+        .rule-tab.active-tab::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.15) 3px, rgba(0,0,0,0.15) 6px); z-index: 1;
+        }
+
+        .rules-nav-track {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 5px; background: #1a1a20; border-radius: 3px;
+        }
+
+        .rules-nav-indicator {
+            position: absolute; bottom: 0; right: 0; height: 5px; background: var(--primary-color); border-radius: 3px;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: 0 0 15px var(--primary-color);
+        }
+
+        .rule-card {
+            background: rgba(5,5,8,0.95); padding: 50px; clip-path: var(--clip-card);
+            border: 1px solid #222; border-top: 5px solid var(--primary-color);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.9);
+            width: 100%; overflow-x: hidden;
+        }
+        .rule-card h3 {
+            font-size: 3rem; color: #fff; margin-bottom: 40px; padding-bottom: 25px; text-transform: uppercase; font-weight: 900;
+            border-bottom: 2px solid rgba(255,0,60,0.3); display: flex; align-items: center; gap: 20px;
+        }
+        .rule-card h3 i { color: var(--primary-color); }
+        .rule-card ul { list-style: none; }
+        .rule-card li {
+            margin-bottom: 20px; padding: 25px; background: rgba(20,20,25,0.6); border-right: 5px solid #333;
+            font-size: 1.2rem; color: #e2e8f0; display: flex; gap: 20px; font-weight: 600; line-height: 1.9; transition: 0.3s;
+        }
+        .rule-card li:hover { background: rgba(255,0,60,0.05); border-right-color: var(--primary-color); transform: translateX(-5px); }
+        .rule-card li i { color: var(--primary-color); margin-top: 8px; font-size: 1rem;}
+
+        .edit-note { 
+            background: repeating-linear-gradient(45deg, rgba(25,25,30,1), rgba(25,25,30,1) 10px, rgba(20,20,25,1) 10px, rgba(20,20,25,1) 20px);
+            color: var(--text-dim); padding: 20px; margin-top: 40px; font-weight: 800; border: 1px solid #333; display: flex; align-items: center; gap: 15px;
+        }
+        .edit-note i { color: #00ff66; font-size: 1.5rem; }
+
+        .scroll-top-btn {
+            position: fixed; bottom: 40px; left: 40px; width: 60px; height: 60px; background: var(--primary-color); color: #fff;
+            border: none; font-size: 1.8rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            z-index: 1000; opacity: 0; visibility: hidden; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); transition: 0.3s;
+        }
+        .scroll-top-btn.show { opacity: 1; visibility: visible; }
+        .scroll-top-btn:hover { background: #fff; color: var(--primary-color); transform: translateY(-10px); box-shadow: 0 10px 30px var(--primary-glow);}
+
+        footer { text-align: center; margin-top: 60px; color: #444; font-weight: 900; grid-column: span 12; padding-bottom: 40px; letter-spacing: 3px;}
+
+        /* ---------------- Response Phones (Problem Solution Problem Slipping 100%) ---------------- */
+        @media (max-width: 1400px) { .bento-creator { grid-column: span 6; } }
+        @media (max-width: 992px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; position: static; padding: 1.5rem; flex-direction: column; border-left: none; border-bottom: 3px solid var(--primary-color); }
+            .logo { margin-bottom: 20px; font-size: 26px; }
+            .nav-label { display: none; }
+            .sidebar-nav { flex-direction: row; overflow-x: auto; width: 100%; flex-wrap: nowrap; margin: 5px 0; gap: 10px;}
+            .sidebar-nav a { white-space: nowrap; font-size: 1rem; padding: 12px 25px; clip-path: none; border-radius: 8px; border: 1px solid #222;}
+            
+            /* هنا Problem Solution Problem The screen المقطوعة */
+            .main-wrapper { margin-right: 0; width: 100%; padding: 1.5rem 1rem; overflow-x: hidden; }
+            
+            .bento-hero { flex-direction: column; text-align: center; padding: 30px; }
+            .hero-text h1 { font-size: 3rem; }
+            .hero-text p { border-right: none; padding-right: 0; margin: 0 auto 30px; }
+            .hero-image img { width: 100%; max-width: 350px; clip-path: none; border-radius: 20px;}
+            
+            .bento-community, .bento-discord, .bento-twitter, .bento-video, .bento-creator { grid-column: span 12; }
+            .bento-twitter { flex-direction: column; text-align: center; gap: 30px; padding: 40px 20px;}
+            .bento-item { padding: 30px 20px; clip-path: none; border-radius: 20px;}
+            
+            .rule-card { padding: 25px 15px; clip-path: none; border-radius: 20px; width: 100%; overflow: hidden;}
+            .rule-card h3 { font-size: 1.8rem; flex-direction: column; text-align: center; gap: 10px;}
+            .rule-card li { font-size: 1.05rem; padding: 15px 10px; gap: 10px;}
+            
+            .rule-tab { width: 105px; height: 100px; }
+            .rule-tab i { font-size: 2rem; margin-bottom: 8px;}
+            .rule-tab span { font-size: 0.8rem; }
+            .scroll-top-btn { bottom: 20px; left: 20px; width: 50px; height: 50px; font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-glow"></div>
+
+    <aside class="sidebar">
+        <div class="logo">OUTLAW <span>Samp</span></div>
+        
+        <div class="nav-label">PAGE PRANCPAL</div>
+        <nav class="sidebar-nav">
+            <a href="#" id="homeLink" class="active-link"><i class="fas fa-crosshairs"></i> Command Center</a>
+            <a href="#" onclick="openRules(); return false;" id="rulesLink"><i class="fas fa-gavel"></i> rules</a>
+            <a href="#" onclick="openCommands(); return false;" id="commandsLink"><i class="fas fa-terminal"></i> commands</a>
+            <a href="https://discord.gg/fy2Uuutnb" target="_blank"><i class="fab fa-discord"></i> DISCORD</a>
+        </nav>
+    </aside>
+
+    <main class="main-wrapper">
+        <div id="mainContent" class="bento-grid">
+            
+            <div class="bento-item bento-hero">
+                <div class="hero-text">
+                    <h1 class="glitch-effect" data-text="OUTLAW FAMILY">CETY <br><span>OUTLAW</span></h1>
+                    <p>You are now in the red zone. Staying here is for the strongest, respect is taken away and not given. Are you ready to write your history on our streets?</p>
+                </div>
+                <div class="hero-image">
+                    <img src="https://i.imgur.com/placeholder.jpg" alt="OUTLAW RP" onerror="this.src='https://via.placeholder.com/600x400/0a0a0c/ff003c?text=ELITE+SYSTEM';">
+                </div>
+            </div>
+
+            <div class="bento-item bento-community">
+                <h2><i class="fas fa-database"></i> Reports The system // magProblem</h2>
+                The Arabic 'OUTLAW' server community is a vibrant community that brings together players, influencers, and viewers, creating an interactive and rich environment. Players participate in building unique experiences within the server, while influencers and streamers contribute to spreading fun and excitement through live streaming, enhancing interaction and communication between players and audiences.
+            </div>
+
+            <a href="https://discord.gg/fy2Uuutnb" target="_blank" class="bento-item bento-discord">
+                <i class="fab fa-discord"></i>
+                <h3 style="font-weight: 900; font-size: 1.8rem; text-transform: uppercase;">DISCORDES</h3>
+            </a>
+
+            <div class="bento-item bento-twitter">
+                <div class="twitter-info">
+                    <h3><i class="fab fa-twitter"></i> General Frequency (Twitter RP)</h3>
+                    <p>Live the role outside the game! Share your character's daily life, interact with the citizens, post exclusive photos and news, and be part of the trend in the city of Los Santos.</p>
+                </div>
+                <a href="#" target="_blank" class="btn-cyber">Activate connection</a>
+            </div>
+
+            <div class="bento-item bento-video" id="videoContainer">
+                <div class="video-overlay" id="videoOverlay">
+                    <button onclick="playVideo()">[ Activate the visual log ]</button>
+                </div>
+            </div>
+
+            <div class="bento-creators-title">
+                <h2><span>//</span> // Elite List // <span>//</span></h2>
+            </div>
+
+            <div class="bento-item bento-community" style="grid-column: span 12; border-top: 3px solid #00ff99; background: linear-gradient(135deg, rgba(0,255,153,0.08), rgba(0,0,0,0.9));">
+                <h2><i class="fas fa-code"></i> SYSTEM DEVELOPER // YOUNES</h2>
+
+                <p style="margin-bottom:20px;">
+                    A developer and programmer from Morocco, 18 years old, passionate about the world of programming, Cyber UI design, and developing game systems and professional websites.
+                </p>
+
+                <p style="margin-bottom:25px;">
+                    Responsible for developing the OUTLAW interface, improving user experience, building command and law pages, and connecting the server's internal systems.
+                </p>
+
+                <div style="display:flex; gap:20px; flex-wrap:wrap; margin-top:25px;">
+
+                    <a href="https://www.youtube.com/@YouneS_GameR25" target="_blank"
+                    class="btn-cyber"
+                    style="border-color:#ff003c;color:#ff003c;">
+                    <i class="fab fa-youtube"></i> YouTube Channel
+                    </a>
+
+                    <a href="https://whatsapp.com/channel/0029Vb7rkxrFHWqANrrAF63V" target="_blank"
+                    class="btn-cyber"
+                    style="border-color:#00ff66;color:#00ff66;">
+                    <i class="fab fa-whatsapp"></i> WhatsApp Channel
+                    </a>
+
+                </div>
+
+                <div class="edit-note" style="margin-top:30px;">
+                    <i class="fas fa-terminal"></i>
+                    STATUS : ONLINE // ACTIVE DEVELOPER // OUTLAW WEB ENGINEER
+                </div>
+            </div>
+
+            <a href="https://www.youtube.com/@YouneS_GameR25" target="_blank" class="bento-item bento-creator">
+                <img src="https://cdn.discordapp.com/attachments/1430225913328701450/1504090400225362000/WhatsApp_Image_2026-02-27_at_21.34.46.jpeg?ex=6a05b8d8&is=6a046758&hm=3dfa5983ce634f2ed3bbcc36f15d81ef88a8773f1c7a8f1bed691e5c3863c000" alt="YOUNESdhx">
+                <h4>YOUNES GAMER</h4>
+                <p>Executive Director</p>
+            </a>
+
+            <footer><p>OUTLAW ELITE SYSTEM // EST. 2026 // ALL RIGHTS RESERVED.</p></footer>
+        </div>
+
+        <div id="rulesSection" class="rules-section">
+            
+            <div class="rules-nav-container">
+                <div class="rules-nav-bar" id="rulesNavBar">
+                    <a href="#" onclick="showRule('general', this); return false;" class="rule-tab active-tab" id="tab-general">
+                        <i class="fas fa-folder"></i><span>RULES GENERAL</span>
+                    </a>
+                    <a href="#" onclick="showRule('important', this); return false;" class="rule-tab" id="tab-important">
+                        <i class="fas fa-exclamation-triangle"></i><span>RULES importantes</span>
+                    </a>
+                    <a href="#" onclick="showRule('admin', this); return false;" class="rule-tab" id="tab-admin">
+                        <i class="fas fa-user-shield"></i><span>RULES l’administration</span>
+                    </a>
+                    <a href="#" onclick="showRule('police', this); return false;" class="rule-tab" id="tab-police">
+                        <i class="fas fa-shield-alt"></i><span>RULES LSPD</span>
+                    </a>
+                    <a href="#" onclick="showRule('ems', this); return false;" class="rule-tab" id="tab-ems">
+                        <i class="fas fa-heartbeat"></i><span>RULES MEDIC</span>
+                    </a>
+                    <a href="#" onclick="showRule('gang', this); return false;" class="rule-tab" id="tab-gang">
+                        <i class="fas fa-skull"></i><span>RULES GANGS</span>
+                    </a>
+                    <a href="#" onclick="showRule('criminal', this); return false;" class="rule-tab" id="tab-criminal">
+                        <i class="fas fa-user-secret"></i><span>RULES ILEGAL</span>
+                    </a>
+                    <a href="#" onclick="showRule('glossary', this); return false;" class="rule-tab" id="tab-glossary">
+                        <i class="fas fa-terminal"></i><span>Les termes</span>
+                    </a>
+                </div>
+                <div class="rules-nav-track"></div>
+                <div class="rules-nav-indicator" id="navIndicator"></div>
+            </div>
+
+            <div id="ruleDisplay" class="rule-card"></div>
+            
+            <button class="btn-back" onclick="showHome()" style="display: block; width: fit-content; margin: 40px auto; background: var(--primary-color); color: #fff; padding: 15px 40px; font-size: 1.2rem; font-weight: 900; cursor: pointer; transition: 0.3s; clip-path: var(--clip-cyber); border: none; text-transform: uppercase;">Closing the database</button>
+            <footer><p>OUTLAW ELITE SYSTEM // EST. 2026</p></footer>
+        
+        
+
+        </div>
+
+        <div id="commandsSection" class="rules-section">
+
+            <div class="rules-nav-container">
+                <div class="rules-nav-bar" id="commandsNavBar">
+                    <a href="#" onclick="showCommand('glossary', this); return false;" class="rule-tab active-tab">
+                        <i class="fas fa-book"></i><span>Terms</span>
+                    </a>
+
+                    <a href="#" onclick="showCommand('criminal', this); return false;" class="rule-tab">
+                        <i class="fas fa-user-secret"></i><span>Commands ilegal</span>
+                    </a>
+
+                    <a href="#" onclick="showCommand('gang', this); return false;" class="rule-tab">
+                        <i class="fas fa-skull"></i><span>Commands gangs</span>
+                    </a>
+
+                    <a href="#" onclick="showCommand('ems', this); return false;" class="rule-tab">
+                        <i class="fas fa-ambulance"></i><span>Commands medic</span>
+                    </a>
+
+                    <a href="#" onclick="showCommand('police', this); return false;" class="rule-tab">
+                        <i class="fas fa-shield-alt"></i><span>Commands lspd</span>
+                    </a>
+
+                    <a href="#" onclick="showCommand('admin', this); return false;" class="rule-tab">
+                        <i class="fas fa-user-shield"></i><span>Commands Management</span>
+                    </a>
+
+                    <a href="#" onclick="showCommand('general', this); return false;" class="rule-tab">
+                        <i class="fas fa-terminal"></i><span>Commands general</span>
+                    </a>
+                </div>
+
+                <div class="rules-nav-track"></div>
+                <div class="rules-nav-indicator" id="commandsIndicator"></div>
+            </div>
+
+            <div id="commandDisplay" class="rule-card"></div>
+
+            <button class="btn-back" onclick="showHome()" style="display: block; width: fit-content; margin: 40px auto; background: var(--primary-color); color: #fff; padding: 15px 40px; font-size: 1.2rem; font-weight: 900; cursor: pointer; transition: 0.3s; clip-path: var(--clip-cyber); border: none; text-transform: uppercase;">Closing the database</button>
+
+            <footer><p>OUTLAW ELITE SYSTEM // EST. 2026</p></footer>
+        </div>
+
+
+    </main>
+
+    <button class="scroll-top-btn" id="scrollTopBtn" onclick="scrollToTop()">
+        <i class="fas fa-angle-up"></i>
+    </button>
+
+    <script>
+        window.addEventListener('scroll', function() {
+            const scrollBtn = document.getElementById('scrollTopBtn');
+            if (window.scrollY > 400) scrollBtn.classList.add('show');
+            else scrollBtn.classList.remove('show');
+        });
+
+        function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+        
+        const commandsData = {
+            glossary: {
+                title: 'GAME TERMS',
+                icon: 'fa-book',
+                items: [
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                ]
+            },
+
+            criminal: {
+                title: 'CRIMINAL COMMANDS',
+                icon: 'fa-user-secret',
+                items: [
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                ]
+            },
+
+            gang: {
+                title: 'GANG COMMANDS',
+                icon: 'fa-skull',
+                items: [
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                ]
+            },
+
+            ems: {
+                title: 'EMS COMMANDS',
+                icon: 'fa-ambulance',
+                items: [
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                ]
+            },
+
+            police: {
+                title: 'POLICE COMMANDS',
+                icon: 'fa-shield-alt',
+                items: [
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                ]
+            },
+
+            admin: {
+                title: 'ADMINISTRATION',
+                icon: 'fa-user-shield',
+                items: [
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                ]
+            },
+
+            general: {
+                title: 'GENERAL COMMANDS',
+                icon: 'fa-terminal',
+                items: [
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                ]
+            }
+        };
+
+
+        // Data RAWLES
+        const rulesData = {
+            general: {
+                title: 'RULES GENERAL', icon: 'fa-folder',
+                items: [
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                ]
+            },
+            important: {
+                title: 'RULES importantes', icon: 'fa-exclamation-triangle',
+                items: [
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                ]
+            },
+            admin: {
+                title: 'RULES l’administration', icon: 'fa-user-shield',
+                items: [
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                ]
+            },
+            police: {
+                title: 'RULES LSPD', icon: 'fa-shield-alt',
+                items: [
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                ]
+            },
+            ems: {
+                title: 'RULES MEDIC', icon: 'fa-heartbeat',
+                items: [
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                ]
+            },
+            gang: {
+                title: 'RULES GANGS', icon: 'fa-skull',
+                items: [
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                ]
+            },
+            criminal: {
+                title: 'RULES ILEGAL', icon: 'fa-user-secret',
+                items: [
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                ]
+            },
+            glossary: {
+                title: 'Les termes المستخدمة', icon: 'fa-terminal',
+                items: [
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                    '     ',
+                ]
+            }
+        };
+
+        const navLinks = document.querySelectorAll('.sidebar-nav a');
+        function setActiveLink(clickedLink) {
+            navLinks.forEach(link => link.classList.remove('active-link'));
+            if(clickedLink) clickedLink.classList.add('active-link');
+        }
+
+        // Function Open Department RAWLES Formally Year
+        
+        function openCommands() {
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('rulesSection').style.display = 'none';
+            document.getElementById('commandsSection').style.display = 'block';
+
+            setActiveLink(document.getElementById('commandsLink'));
+
+            const firstTab = document.querySelector('#commandsNavBar .rule-tab');
+            if(firstTab) showCommand('glossary', firstTab);
+        }
+
+        function showCommand(category, element) {
+            const command = commandsData[category];
+            if (!command) return;
+
+            let html = `<h3><i class="fas ${command.icon}"></i> ${command.title}</h3><ul>`;
+
+            command.items.forEach(item => {
+                html += `<li><i class="fas fa-caret-left"></i><span>${item}</span></li>`;
+            });
+
+            html += `</ul><div class="edit-note"><i class="fas fa-terminal"></i> [!] OUTLAW GAME COMMANDS DATABASE ACTIVE</div>`;
+
+            document.getElementById('commandDisplay').innerHTML = html;
+
+            document.querySelectorAll('#commandsNavBar .rule-tab').forEach(tab => {
+                tab.classList.remove('active-tab');
+            });
+
+            if(element){
+                element.classList.add('active-tab');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+
+        function openRules() {
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('rulesSection').style.display = 'block';
+            setActiveLink(document.getElementById('rulesLink'));
+            
+            const firstTab = document.getElementById('tab-general');
+            if(firstTab) showRule('general', firstTab);
+        }
+
+        // Function to display law content (removed scrollIntoView لSolution Problem Mobile phone)
+        function showRule(category, element) {
+            const rule = rulesData[category];
+            if (!rule) return;
+            
+            let html = `<h3><i class="fas ${rule.icon}"></i> ${rule.title}</h3><ul>`;
+            rule.items.forEach(item => {
+                html += `<li><i class="fas fa-caret-left"></i> <span>${item.replace(/\n/g, '<br>')}</span></li>`;
+            });
+            html += `</ul><div class="edit-note"> [!] Access granted: Document editable by High Commands Management </div>`;
+            document.getElementById('ruleDisplay').innerHTML = html;
+            
+            document.querySelectorAll('.rule-tab').forEach(tab => tab.classList.remove('active-tab'));
+            if(element) {
+                element.classList.add('active-tab');
+                updateIndicator(element);
+                
+                // ProblemSwipe the bar only without moving the screen
+                const navBar = document.getElementById('rulesNavBar');
+                const scrollLeft = element.offsetLeft - (navBar.offsetWidth / 2) + (element.offsetWidth / 2);
+                navBar.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+            }
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Update The index Red lower
+        function updateIndicator(element) {
+            const indicator = document.getElementById('navIndicator');
+            const navBar = document.getElementById('rulesNavBar');
+            const rightPos = navBar.scrollWidth - (element.offsetLeft + element.offsetWidth);
+            indicator.style.width = element.offsetWidth + 'px';
+            indicator.style.right = rightPos + 'px';
+        }
+
+        document.getElementById('rulesNavBar').addEventListener('scroll', function() {
+            const activeTab = document.querySelector('.rule-tab.active-tab');
+            if(activeTab) updateIndicator(activeTab);
+        });
+
+        window.addEventListener('resize', function() {
+            const activeTab = document.querySelector('.rule-tab.active-tab');
+            if(activeTab) updateIndicator(activeTab);
+        });
+
+        function showHome() {
+            document.getElementById('mainContent').style.display = 'grid';
+            document.getElementById('rulesSection').style.display = 'none';
+            document.getElementById('commandsSection').style.display = 'none';
+            setActiveLink(document.getElementById('homeLink'));
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.getElementById('homeLink').addEventListener('click', function(e) { 
+            e.preventDefault(); 
+            showHome(); 
+        });
+
+        function playVideo() {
+            const container = document.getElementById('videoContainer');
+            const overlay = document.getElementById('videoOverlay');
+            overlay.style.display = 'none';
+            const iframe = document.createElement('iframe');
+            iframe.className = 'video-iframe';
+            iframe.src = '';
+            iframe.frameborder = '0';
+            iframe.allowfullscreen = true;
+            iframe.allow = 'autoplay; encrypted-media';
+            container.appendChild(iframe);
+        }
+    </script>
+</body>
+</html>
